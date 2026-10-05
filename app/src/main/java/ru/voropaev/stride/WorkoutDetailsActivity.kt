@@ -32,7 +32,8 @@ class WorkoutDetailsActivity : LifecycleLoggingActivity() {
         link.value = savedInstanceState?.getString(KEY_LINK)?.toUri() ?: intent.data
         enableEdgeToEdge()
         setContent {
-            val workout: Workout? = WorkoutLink.parse(link.value)?.let { AppContainer.workoutRepository.getById(it) }
+            val workout: Workout? =
+                WorkoutLink.parse(link.value)?.let { AppContainer.workoutRepository.getById(it) }
             StrideTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     if (workout != null) {
@@ -41,6 +42,7 @@ class WorkoutDetailsActivity : LifecycleLoggingActivity() {
                             modifier = Modifier.padding(innerPadding),
                             showSplits = showSplits.value,
                             onToggleSplits = { showSplits.value = !showSplits.value },
+                            onShareClick = { shareWorkout(workout) },
                         )
                     } else {
                         NotFoundScreen(
@@ -65,4 +67,13 @@ class WorkoutDetailsActivity : LifecycleLoggingActivity() {
         showSplits.value = false
     }
 
+    private fun shareWorkout(workout: Workout) {
+        val text =
+            "Моя тренировка «${workout.name}» в Stride: ${WorkoutLink.createLink(workout.id)}"
+        val intent: Intent = Intent(Intent.ACTION_SEND)
+            .setType("text/plain")
+            .putExtra(Intent.EXTRA_TEXT, text)
+
+        startActivity(Intent.createChooser(intent, "Поделиться тренировкой"))
+    }
 }

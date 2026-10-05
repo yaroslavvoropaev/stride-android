@@ -19,7 +19,8 @@ fun WorkoutDetailsScreen(
     workout: Workout,
     modifier: Modifier = Modifier,
     showSplits: Boolean,
-    onToggleSplits: () -> Unit
+    onToggleSplits: () -> Unit,
+    onShareClick: () -> Unit
 ) {
 
     Column(
@@ -27,6 +28,9 @@ fun WorkoutDetailsScreen(
         verticalArrangement = Arrangement.spacedBy(4.dp)
     ) {
         Text(workout.name, style = MaterialTheme.typography.headlineSmall)
+        Button(onClick = onShareClick) {
+            Text("Поделиться")
+        }
         Text(activityTypeToStr(workout.activityType))
         Text("Дата: ${workout.dateOfStart}")
         Text("Дистанция: ${workout.distanceMetres} м")
