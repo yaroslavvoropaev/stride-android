@@ -3,6 +3,7 @@ package ru.voropaev.stride.ui.details
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -16,8 +17,11 @@ import ru.voropaev.stride.ui.list.activityTypeToStr
 @Composable
 fun WorkoutDetailsScreen(
     workout: Workout,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    showSplits: Boolean,
+    onToggleSplits: () -> Unit
 ) {
+
     Column(
         modifier = modifier.padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(4.dp)
@@ -27,15 +31,18 @@ fun WorkoutDetailsScreen(
         Text("Дата: ${workout.dateOfStart}")
         Text("Дистанция: ${workout.distanceMetres} м")
         Text("Время: ${workout.duration.toMinutes()} мин")
-        Text("Темп: ${workout.avgPaceSecPerKm ?: "—"} с/км")
+        Text("Темп: ${workout.avgPaceSecPerKm ?: "-"} с/км")
 
-        Text(
-            "Сплиты",
-            style = MaterialTheme.typography.titleMedium,
+        Button(
+            onClick = onToggleSplits,
             modifier = Modifier.padding(top = 16.dp)
-        )
-        workout.splits.forEach { split ->
-            Text("${split.numberOfKilometer} км: ${split.distance} м за ${split.duration.toMinutes()} мин")
+        ) {
+            Text(if (showSplits) "Скрыть сплиты" else "Показать сплиты")
+        }
+        if (showSplits) {
+            workout.splits.forEach { split ->
+                Text("${split.numberOfKilometer} км: ${split.distance} м за ${split.duration.toMinutes()} мин")
+            }
         }
     }
 }
