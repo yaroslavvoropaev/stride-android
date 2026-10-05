@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Stride</string>
+    <string name="workout_not_found">тренировка не найдена или ссылка повреждена</string>
 </resources>
