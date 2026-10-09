@@ -18,6 +18,7 @@ fun WorkoutListScreen(
     onWorkoutClick: (Long) -> Unit,
     modifier: Modifier = Modifier
 ) {
+
     LazyColumn(modifier = modifier) {
         items(workouts) { workout ->
             Column(
@@ -30,7 +31,6 @@ fun WorkoutListScreen(
                 Text(workout.name)
                 Text(activityTypeToStr(workout.activityType))
             }
-
         }
     }
 }

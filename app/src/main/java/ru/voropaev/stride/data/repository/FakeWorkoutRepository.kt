@@ -16,7 +16,7 @@ class FakeWorkoutRepository : WorkoutRepository {
             activityType = ActivityType.CYCLING,
             name = "Тренировка утренняя",
             dateOfStart = Instant.parse("2026-09-04T19:41:00Z"),
-            distanceMetres = 2700,
+            distanceMetres = 2800,
             duration = Duration.ofMinutes(67),
             splits = listOf(
                 Split(
@@ -31,7 +31,7 @@ class FakeWorkoutRepository : WorkoutRepository {
                 ),
                 Split(
                     numberOfKilometer = 3,
-                    distance = 700,
+                    distance = 800,
                     duration = Duration.ofMinutes(27)
                 )
             )
