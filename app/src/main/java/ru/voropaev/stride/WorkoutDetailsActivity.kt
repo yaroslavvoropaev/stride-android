@@ -18,18 +18,20 @@ import ru.voropaev.stride.ui.details.NotFoundScreen
 import ru.voropaev.stride.ui.details.WorkoutDetailsScreen
 import ru.voropaev.stride.ui.theme.StrideTheme
 
+import java.io.Serializable
 
-private const val KEY_LINK = "link"
-private const val KEY_SHOW_SPLITS = "show_splits"
+private const val KEY_STATE = "detailsState"
 
 class WorkoutDetailsActivity : LifecycleLoggingActivity() {
-    private var showSplits = mutableStateOf(false)
-    private var link = mutableStateOf<Uri?>(null)
+    private data class DetailsState(val link: String?, val showSplits: Boolean) : Serializable
+    private val showSplits = mutableStateOf(false)
+    private val link = mutableStateOf<Uri?>(null)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        showSplits.value = savedInstanceState?.getBoolean(KEY_SHOW_SPLITS) ?: false
-        link.value = savedInstanceState?.getString(KEY_LINK)?.toUri() ?: intent.data
+        val saved  = savedInstanceState?.getSerializable(KEY_STATE) as? DetailsState
+        link.value = saved?.link?.toUri()  ?: intent.data
+        showSplits.value = saved?.showSplits ?: false
         enableEdgeToEdge()
         setContent {
             val workout: Workout? =
@@ -55,8 +57,10 @@ class WorkoutDetailsActivity : LifecycleLoggingActivity() {
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        outState.putBoolean(KEY_SHOW_SPLITS, showSplits.value)
-        outState.putString(KEY_LINK, link.value?.toString())
+        outState.putSerializable(KEY_STATE, DetailsState(
+            link.value?.toString(),
+            showSplits.value
+        ))
         super.onSaveInstanceState(outState)
     }
 
