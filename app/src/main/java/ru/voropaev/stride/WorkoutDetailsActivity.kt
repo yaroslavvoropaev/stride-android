@@ -29,6 +29,7 @@ class WorkoutDetailsActivity : LifecycleLoggingActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        @Suppress("DEPRECATION")
         val saved  = savedInstanceState?.getSerializable(KEY_STATE) as? DetailsState
         link.value = saved?.link?.toUri()  ?: intent.data
         showSplits.value = saved?.showSplits ?: false
