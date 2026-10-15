@@ -3,7 +3,7 @@ package ru.voropaev.stride.link
 import android.net.Uri
 
 object WorkoutLink {
-    private const val SCHEME: String = "stride"
+    private const val SCHEME = "stride"
     private const val AUTHORITY = "workout"
 
     fun createLink(id: Long): Uri {
